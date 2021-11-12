@@ -7,7 +7,7 @@
 
 ## Running
 
-./gradlew cucumber
+`./gradlew cucumber`
 
 ## Output
 
