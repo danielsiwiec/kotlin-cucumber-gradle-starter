@@ -4,7 +4,6 @@ import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import io.cucumber.java8.Scenario
 import org.junit.jupiter.api.Assertions.*
-import org.opentest4j.TestAbortedException
 
 var lastInstance: LambdaStepDefinitions? = null
 
