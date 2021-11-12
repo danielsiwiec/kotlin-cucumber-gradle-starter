@@ -1,0 +1,50 @@
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.5.31'
+    id 'application'
+}
+
+group = 'me.user'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test:1.5.31'
+    testImplementation 'io.cucumber:cucumber-java8:7.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+compileTestKotlin {
+    kotlinOptions.jvmTarget = '1.8'
+}
+
+application {
+    mainClass.set 'MainKt'
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, testClasses
+    doLast {
+        javaexec {
+            mainClass.set 'io.cucumber.core.cli.Main'
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = [
+                    '--plugin', 'pretty',
+                    '--plugin', 'html:target/cucumber-report.html',
+                    '--glue', 'io.cucumber.kotlin',
+                    'src/test/resources']
+        }
+    }
+}
